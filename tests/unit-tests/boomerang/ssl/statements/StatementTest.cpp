@@ -831,27 +831,24 @@ void StatementTest::testRecursion()
         "0x00000000    1 *union* r28 := -\n"
         "              2 *32* r29 := -\n"
         "              3 *v* m[r28{1} + 4] := -\n"
-        "0x00001004    4 *32* m[r28{1} - 4] := r29{2}\n"
-        "0x00001006    5 *union* r28 := r28{1} - 8\n"
-        "              6 *v* m[r28{1} - 8] := m[r28{1} + 4]{3} + 1\n"
+        "0x00001004\n"
+        "0x00001006    4 *union* r28 := r28{1} - 8\n"
         "Call BB:\n"
         "  in edges: 0x00001006(0x00001004) 0x00001008(0x00001008) \n"
         "  out edges: 0x00001008 0x0000100c \n"
-        "0x00000000    7 *union* r28 := phi{5 11}\n"
-        "              8 *32* m[r28{1} - 4] := phi{4 11}\n"
-        "              9 *v* m[r28{1} - 8] := phi{6 11}\n"
-        "0x00001008   10 *u32* m[r28{7} - 4] := %pc\n"
-        "             11 *union* r28 := CALL test(<all>)\n"
-        "              Reaching definitions: r28=r28{7} - 4,   r29=r29{2},   m[r28{1} + 4]=m[r28{1} + 4]{3},\n"
-        "                m[r28{1} - 4]=m[r28{1} - 4]{8},   m[r28{1} - 8]=m[r28{1} - 8]{9}\n"
-        "              Live variables: r28,  m[r28{1} - 4],  m[r28{1} - 8]\n"
+        "0x00000000    5 *union* r28 := phi{4 7}\n"
+        "0x00001008    6 *u32* m[r28{5} - 4] := %pc\n"
+        "              7 *union* r28 := CALL test(<all>)\n"
+        "              Reaching definitions: r28=r28{5} - 4,   r29=r29{2},   m[r28{1} + 4]=m[r28{1} + 4]{3},\n"
+        "                m[r28{1} - 4]=r29{2},   m[r28{1} - 8]=m[r28{1} + 4]{3} + 1\n"
+        "              Live variables: r28\n"
         "Ret BB:\n"
         "  in edges: 0x00001008(0x00001008) \n"
         "  out edges: \n"
-        "0x0000100c   12 RET\n"
+        "0x0000100c    8 RET\n"
         "              Modifieds: <None>\n"
-        "              Reaching definitions: r28=r28{11} + 4,   r29=r29{11},   m[r28{1} + 4]=m[r28{1} + 4]{11},\n"
-        "                m[r28{1} - 4]=m[r28{1} - 4]{11},   m[r28{1} - 8]=m[r28{1} - 8]{11},   <all>=<all>{11}\n"
+        "              Reaching definitions: r28=r28{7} + 4,   r29=r29{7},   m[r28{1} + 4]=m[r28{1} + 4]{7},\n"
+        "                m[r28{1} - 4]=m[r28{1} - 4]{7},   m[r28{1} - 8]=m[r28{1} - 8]{7},   <all>=<all>{7}\n"
         "\n";
 
     compareLongStrings(actual, expected);
@@ -1004,9 +1001,9 @@ void StatementTest::testAddUsedLocsCase()
     CaseStatement c;
 
     c.setDest(Location::memOf(Location::regOf(REG_PENT_EDX)));
-    SwitchInfo si;
-    si.switchExp = Location::memOf(Binary::get(opMinus, Location::regOf(REG_PENT_ESP), Const::get(12)));
-    c.setSwitchInfo(&si);
+    std::unique_ptr<SwitchInfo> si(new SwitchInfo);
+    si->switchExp = Location::memOf(Binary::get(opMinus, Location::regOf(REG_PENT_ESP), Const::get(12)));
+    c.setSwitchInfo(std::move(si));
     c.addUsedLocs(l);
 
     QString expected("r26,\tr28,\tm[r28 - 12],\tm[r26]");
@@ -1159,18 +1156,18 @@ void StatementTest::testBypass()
         ++it;
     }
     QVERIFY(it != stmts.end());
-    Statement *s20 = *std::next(it, 2); // Statement 20
-    QVERIFY(s20->getKind() == StmtType::Assign);
+    Statement *s19 = *std::next(it, 2);
+    QVERIFY(s19->getKind() == StmtType::Assign);
 
-    QCOMPARE(s20->toString(), "  20 *32* r28 := r28{18} + 16");
+    QCOMPARE(s19->toString(), "  19 *32* r28 := r28{17} + 16");
 
-    s20->bypass();        // r28 should bypass the call
-    QCOMPARE(s20->toString(), "  20 *32* r28 := r28{15} + 20");
+    s19->bypass();        // r28 should bypass the call
+    QCOMPARE(s19->toString(), "  19 *32* r28 := r28{15} + 20");
 
     // Second pass (should do nothing because r28{15} is the only reference to r28
     // that reaches the call)
-    s20->bypass();
-    QCOMPARE(s20->toString(), "  20 *32* r28 := r28{15} + 20");
+    s19->bypass();
+    QCOMPARE(s19->toString(), "  19 *32* r28 := r28{15} + 20");
 }
 
 

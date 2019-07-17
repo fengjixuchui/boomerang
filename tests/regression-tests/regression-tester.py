@@ -161,7 +161,6 @@ regression_tests = [
     "ppc/o4/twoproc2",
     "ppc/o4/uns",
     "ppc/paramchain",
-    "ppc/phi",
     "ppc/phi2",
     "ppc/printpi",
     "ppc/set",
@@ -302,6 +301,7 @@ smoke_tests = [
     "ppc/o4/phi",
     "ppc/o4/semi",
     "ppc/o4/sumarray",
+    "ppc/phi",
     "ppc/semi",
 
     "sparc/asgngoto",
@@ -312,11 +312,14 @@ smoke_tests = [
     "sparc/fibo_iter",
     "sparc/fromssa2",
     "sparc/mutual_recurse",
+    "sparc/RayTracer",
     "sparc/recursion",
     "sparc/shared2",
     "sparc/sumarray-O4",
     "sparc/switchAnd_gcc",
     "sparc/switch_epc2",
+    "sparc/switch_gpc",
+    "sparc/twofib",
     "sparc/twoproc",
     "sparc/worms",
 
@@ -330,11 +333,7 @@ smoke_tests = [
 
 # These files are disabled explicitly because decompilation fails for them.
 disabled_tests = [
-    "elf/hello-clang4-static",
-    "mc68328/Starter.prc",
-    "sparc/RayTracer",
-    "sparc/switch_gpc",
-    "sparc/twofib"
+    "elf/hello-clang4-static"
 ]
 
 

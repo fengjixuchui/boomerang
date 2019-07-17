@@ -6,26 +6,26 @@ Boomerang currently supports:
  - file formats: ELF, PE, DOS MZ, DOS/4GW LE, Mach-O
  - high-level language output: C
 
-Although there are pre-compiled packages available for release versions (`master`),
-it is currently recommended to build the development version (`develop`) of the decompiler from source.
+Although there are pre-compiled packages available for release versions (`master` branch),
+it is currently recommended to build the development version (`develop` branch) of the decompiler from source.
 
 
 ## Building
 
 | **Build status** | Linux/macOS | Windows | Test Coverage |
 |------------------|-------------|---------|---------------|
-|    **develop**   | [![Travis CI](https://api.travis-ci.com/BoomerangDecompiler/boomerang.svg?branch=develop)](https://travis-ci.com/BoomerangDecompiler/boomerang/branches) | [![Appveyor](https://ci.appveyor.com/api/projects/status/pg2bw7kxse1t7cx8/branch/develop?svg=true)](https://ci.appveyor.com/project/ceeac/boomerang/branch/develop) | [![codecov](https://codecov.io/gh/BoomerangDecompiler/boomerang/branch/develop/graph/badge.svg)](https://codecov.io/gh/BoomerangDecompiler/boomerang/branch/develop) |
-|    **master**    | [![Travis CI](https://api.travis-ci.com/BoomerangDecompiler/boomerang.svg?branch=master)](https://travis-ci.com/BoomerangDecompiler/boomerang/branches)  | [![Appveyor](https://ci.appveyor.com/api/projects/status/pg2bw7kxse1t7cx8/branch/master?svg=true)](https://ci.appveyor.com/project/ceeac/boomerang/branch/master)   | [![codecov](https://codecov.io/gh/BoomerangDecompiler/boomerang/branch/master/graph/badge.svg)](https://codecov.io/gh/BoomerangDecompiler/boomerang/branch/master)   |
+|    **develop**   | [![Travis CI](https://api.travis-ci.com/BoomerangDecompiler/boomerang.svg?branch=develop)](https://travis-ci.com/BoomerangDecompiler/boomerang/branches) | [![Appveyor](https://ci.appveyor.com/api/projects/status/pg2bw7kxse1t7cx8/branch/develop?svg=true)](https://ci.appveyor.com/project/ceeac/boomerang/branch/develop) | [![Codecov branch](https://img.shields.io/codecov/c/github/boomerangdecompiler/boomerang/develop.svg)](https://codecov.io/gh/BoomerangDecompiler/boomerang/branch/develop) |
+|    **master**    | [![Travis CI](https://api.travis-ci.com/BoomerangDecompiler/boomerang.svg?branch=master)](https://travis-ci.com/BoomerangDecompiler/boomerang/branches)  | [![Appveyor](https://ci.appveyor.com/api/projects/status/pg2bw7kxse1t7cx8/branch/master?svg=true)](https://ci.appveyor.com/project/ceeac/boomerang/branch/master)   | [![Codecov branch](https://img.shields.io/codecov/c/github/boomerangdecompiler/boomerang/master.svg)](https://codecov.io/gh/BoomerangDecompiler/boomerang/branch/master)   |
 
 
 ### Building prerequisites
 
  - A 64 bit operating system (32 bit might or might not work, but it is not supported.)
  - A C++17 compiler (GCC 7+, Clang 6+, MSVC 2017+ are known to work)
- - [CMake](https://cmake.org/download/) 3.8+
- - [Qt5](https://www.qt.io/download-open-source/) (Qt 5.11+ is known to work, earlier versions should also work)
- - [Capstone](http://www.capstone-engine.org/) 3.0.5+
- - [GNU bison](https://www.gnu.org/software/bison/) 3.0+ (3.0.5+ is recommended)
+ - [CMake](https://cmake.org/download/) 3.13+
+ - [Qt5](https://www.qt.io/download-open-source/) (Qt 5.12+ is known to work, earlier versions should also work)
+ - [Capstone](http://www.capstone-engine.org/) 4.0.1+
+ - [GNU bison](https://www.gnu.org/software/bison/) 3.3+
  - [GNU flex](https://github.com/westes/flex) 2.6+
  - [CCache](https://ccache.samba.org/download.html) 3.2+ (optional, for recompilation speed)
  - [Doxygen](http://www.doxygen.nl/) 1.8+ (optional, for documentation)
@@ -78,6 +78,17 @@ for other IDEs or compilers (e.g. MinGW) is not covered in this guide.
 - "Generate" and "Open Project" in cmake-gui.
 - To build the command line tool, build the `boomerang-cli` target; to build the GUI, build the `boomerang-gui` target.
 - Done!
+
+
+## Usage
+
+Boomerang can be run in two ways:
+
+- `boomerang-cli[.exe]`: Command-line interface. Use `boomerang-cli[.exe] --help` for help wrt. how to customize the decompilation process.
+- `boomerang-gui[.exe]`: GUI application.
+
+There are a number of test applications available in the `data/samples` directory. You can use these to assess
+what the decompiler can decompile and also to experiment with the different decompilation options.
 
 
 ## Testing

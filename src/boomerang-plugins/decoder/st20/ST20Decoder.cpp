@@ -154,18 +154,6 @@ bool ST20Decoder::decodeInstruction(Address pc, ptrdiff_t delta, DecodeResult &r
             }
 
             result.rtl = instantiate(pc, insnName);
-
-            const bool isRet = strcmp(insnName, "ret") == 0 || strcmp(insnName, "iret") == 0 ||
-                               strcmp(insnName, "tret") == 0;
-            if (isRet) {
-                result.rtl->append(new ReturnStatement);
-            }
-            else if (strcmp(insnName, "gcall") == 0) {
-                CallStatement *call = new CallStatement;
-                call->setDest(Location::tempOf(Const::get(QString("tmp"))));
-                call->setIsComputed(true);
-                result.rtl->append(call);
-            }
         } break;
 
         default: assert(false);
@@ -402,7 +390,7 @@ std::unique_ptr<RTL> ST20Decoder::instantiate(Address pc, const char *name,
         LOG_ERROR("Cannot find semantics for instruction '%1' at address %2, "
                   "treating instruction as NOP",
                   name, pc);
-        return m_rtlDict.instantiateRTL("NOP", pc, {});
+        return m_rtlDict.instantiateRTL("nop", pc, {});
     }
 
     return rtl;
@@ -418,12 +406,6 @@ QString ST20Decoder::getRegNameByNum(RegNum regNum) const
 int ST20Decoder::getRegSizeByNum(RegNum regNum) const
 {
     return m_rtlDict.getRegDB()->getRegSizeByNum(regNum);
-}
-
-
-RegNum ST20Decoder::getRegNumByName(const QString &name) const
-{
-    return m_rtlDict.getRegDB()->getRegNumByName(name);
 }
 
 

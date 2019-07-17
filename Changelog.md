@@ -1,7 +1,18 @@
-v0.5.0 (in development)
+v0.6.0 (in development)
 -----------------------
+- Improved: Instruction semantics definition format.
+
+v0.5.1 (in development)
+-----------------------
+- Fixed: Non-deterministic decompilation of functions containing removable return values.
+- Technical: Updated minimum required version of dependencies.
+
+v0.5.0 (2019-7-11)
+------------------
 - Fixed: Crashes when reading malformed SSL specification files.
-- Fixed: Crashes when decoding unrecognized floating poing branches on SPARC.
+- Fixed: Crashes when specifying malformed command line arguments for boomerang-cli.
+- Fixed: Crashes when decoding unrecognized floating point branches on SPARC.
+- Fixed: Crashes when loading ELF files with malformed relocation entries.
 - Fixed: Crash when decoding instructions with multiple instruction prefixes in some cases.
 - Fixed: Crash when decompiling x86 binaries that contain specific variants of the JP or JNP instructions.
 - Fixed: Crash when decompiling x86 binaries that contain functions where the first instruction is BSF or BSR.
@@ -19,9 +30,14 @@ v0.5.0 (in development)
 - Fixed: Crash when analyzing data-flow for functions where the entry BB is not the BB with the lowest address.
 - Fixed: Crash when analyzing data-flow for recursive functions after removing Basic Blocks from the same function.
 - Fixed: Crash when accessing deleted call statement via callee function.
+- Fixed: Potential crash when loading ELF files with a large number of sections.
 - Fixed: Potential crash when decompiling non-constant register expressions.
 - Fixed: Potential crash when analyzing delayed branches on SPARC where the branch and the delay slot cannot be swapped.
+- Fixed: Potential crash when analyzing dataflow for functions where the entry Basic Block is not at index 0.
+- Fixed: Potential crash when simplifying expressions that divide by zero.
+- Fixed: Memory leak when analyzing switch statements.
 - Fixed: Failure to load and disassemble 16-bit DOS MZ and LE executables.
+- Fixed: Failure to load DOS4GW LX or LE executables.
 - Fixed: Missing guard expressions when processing overlapped registers for assignments with guards.
 - Fixed: Unsigned integral types mistaken for signed integral types when parsing signature or symbol information.
 - Fixed: Signature promotion ignored '-nP' switch.
@@ -33,11 +49,13 @@ v0.5.0 (in development)
 - Fixed: Wrong decompilation of x86 binaries containing multiple string instructions in a single Basic Block.
 - Fixed: Wrong decompilation of ppc binaries using the LR or CTR register in calls or switch statements.
 - Fixed: Wrong decompilation of SPARC branches where the branch and the delay slot cannot be swapped.
+- Fixed: Wrong decompilation of loops containing break or return statements in some cases.
 - Fixed: Unnecessary union types in high level code due to non-symmetric type meet operator.
 - Fixed: Missing rotation amount for left and right rotates in high level code.
 - Fixed: High level code output for bit extraction operator on right hand side of assignments.
 - Fixed: Functions used as members in global function pointer arrays before they were declared.
 - Fixed: Memory leaks in parsers.
+- Fixed: Missing high-level code when decompiling via boomerang-gui.
 - Feature: The x86 decoder now recognizes a larger subset of the x86 instruction set.
 - Feature: Added support for Code Generator plugins.
 - Feature: Added support for Type Recovery plugins.
@@ -54,6 +72,7 @@ v0.5.0 (in development)
 - Improved: Analysis of calls via function pointers.
 - Improved: Ordering of case labels in high level switch statements.
 - Improved: High level code output for increments of pointers to non-32 bit data.
+- Improved: Removal of unnecessary parameters for self-recursive functions.
 - Improved: Unit test coverage.
 - Improved: Regression test coverage.
 - Changed: Replaced old pentium (x86) decoder by x86 decoder using libcapstone for decoding instructions.
